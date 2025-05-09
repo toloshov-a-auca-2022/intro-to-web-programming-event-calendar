@@ -44,6 +44,14 @@ def add_event():
         return redirect(url_for('index'))
     return render_template('add_event.html')
 
+@app.route('/delete/<int:event_id>')
+def delete_event(event_id):
+    conn = sqlite3.connect('events.db')
+    c = conn.cursor()
+    c.execute('DELETE FROM events WHERE id = ?', (event_id,))
+    conn.commit()
+    conn.close()
+    return redirect(url_for('index'))
 
 if __name__ == '__main__':
     init_db()
